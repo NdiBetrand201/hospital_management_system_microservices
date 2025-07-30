@@ -1,0 +1,29 @@
+
+# This tells our phone book building what "phone number" (port) to use.
+# 8761 is a common number for Eureka.
+server:
+  port: 8761
+
+# These are special notes for our phone book about how it should act as a "client" (even though it's the server).
+eureka:
+  client:
+    # IMPORTANT: Tell the phone book NOT to try and list itself in its own directory.
+    # It's the directory, it doesn't need to be listed!
+    register-with-eureka: false
+    # IMPORTANT: Tell the phone book NOT to try and get lists from other phone books.
+    # For now, it's the ONLY phone book.
+    fetch-registry: false
+    # This is the address where other buildings will find our phone book.
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+  # These are notes for the phone book server itself.
+  server:
+    # If a building doesn't "check in" (send a heartbeat) for 10 seconds,
+    # the phone book will think it's gone and remove it from the list.
+    eviction-interval-timer-in-ms: 10000 # 10 seconds
+
+# This is just the name of our phone book application.
+spring:
+  application:
+    name: eureka-server

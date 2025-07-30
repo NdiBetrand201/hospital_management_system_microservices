@@ -1,0 +1,40 @@
+# Server configuration for the Patient Service
+server:
+  port: 8081 # This is the unique "phone number" (port) for our Hospital building.
+  # It must be different from Eureka Server's port (8761).
+
+# Spring application name, used for Eureka registration and logging
+spring:
+  application:
+    name: patient-service # This is the name our Hospital building will use when it registers with Eureka.
+
+  # Eureka client configuration (how our Hospital talks to the phone book)
+  eureka:
+    client:
+      # This is the address of our Eureka Server (the phone book).
+      # Our Hospital needs to know where to find the phone book to register itself.
+      service-url:
+        defaultZone: http://localhost:8761/eureka/
+      # We want our Hospital to send its IP address, not just its hostname, to Eureka.
+      # This can sometimes help with discovery in certain network setups.
+      instance:
+        prefer-ip-address: true
+
+  # Database configuration for our Patient Service (the filing cabinet for patient records)
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dpms_patient_db # The address of our PostgreSQL database
+    username: dpms_user # The username to connect to the database
+    password: dpms_password # The password to connect to the database
+    driver-class-name: org.postgresql.Driver # Tells Java what type of database driver to use
+
+  # JPA (Java Persistence API) configuration for talking to the database
+  jpa:
+    hibernate:
+      # This tells Hibernate (the tool JPA uses) to automatically create/update database tables
+      # based on our Java code. 'update' means it will make changes if needed, but won't delete data.
+      ddl-auto: update
+    # This makes Hibernate show the SQL queries it's running in our console logs. Useful for debugging!
+    show-sql: true
+    # Tells Hibernate which type of database it's talking to.
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
