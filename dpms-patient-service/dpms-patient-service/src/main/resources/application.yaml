@@ -22,10 +22,10 @@ spring:
 
   # Database configuration for our Patient Service (the filing cabinet for patient records)
   datasource:
-    url: jdbc:postgresql://localhost:5432/dpms_patient_db # The address of our PostgreSQL database
-    username: dpms_user # The username to connect to the database
-    password: dpms_password # The password to connect to the database
-    driver-class-name: org.postgresql.Driver # Tells Java what type of database driver to use
+    url: jdbc:mysql://localhost:3306/dpms_patient_db # The address of our PostgreSQL database
+    username: root # The username to connect to the database
+    password: "" # The password to connect to the database
+    driver-class-name: com.mysql.cj.jdbc.Driver # Tells Java what type of database driver to use
 
   # JPA (Java Persistence API) configuration for talking to the database
   jpa:
@@ -36,5 +36,9 @@ spring:
     # This makes Hibernate show the SQL queries it's running in our console logs. Useful for debugging!
     show-sql: true
     # Tells Hibernate which type of database it's talking to.
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.MySQLDialect
 
+
+  cloud:
+    compatibility-verifier:
+      enabled: false
