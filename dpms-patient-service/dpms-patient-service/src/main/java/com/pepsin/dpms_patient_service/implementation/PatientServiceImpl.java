@@ -29,12 +29,18 @@ import java.util.stream.Collectors;
  * and injects them. This is the best way to do "Dependency Injection".
  */
 @Service
-@RequiredArgsConstructor // Automatically creates a constructor for final fields
+
 public class PatientServiceImpl implements PatientService {
+
+    public PatientServiceImpl(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
+    }
 
     // This is our "Filing Cabinet Librarian" (PatientRepository).
     // The Hospital Manager needs to talk to the Librarian to save/find records.
     private  PatientRepository patientRepository;
+
+
 
     /**
      * Converts a PatientRequestDTO (form) into a Patient entity (record card).

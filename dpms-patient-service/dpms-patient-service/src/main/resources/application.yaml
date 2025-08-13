@@ -6,7 +6,7 @@ server:
 # Spring application name, used for Eureka registration and logging
 spring:
   application:
-    name: patient-service # This is the name our Hospital building will use when it registers with Eureka.
+    name: PATIENT-SERVICE # This is the name our Hospital building will use when it registers with Eureka.
 
   # Eureka client configuration (how our Hospital talks to the phone book)
   eureka:

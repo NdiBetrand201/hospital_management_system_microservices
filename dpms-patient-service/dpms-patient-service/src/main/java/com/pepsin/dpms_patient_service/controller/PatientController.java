@@ -28,11 +28,16 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/patients")
-@RequiredArgsConstructor // Automatically creates a constructor for final fields
+ // Automatically creates a constructor for final fields
 public class PatientController {
 
     // Our "Hospital Manager" (PatientService) that the Receptionist talks to.
     private PatientService patientService;
+
+
+    public PatientController(PatientService patientService) {
+        this.patientService = patientService;
+    }
 
     /**
      * Handles requests to create a new patient.

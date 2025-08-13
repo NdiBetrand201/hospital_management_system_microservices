@@ -1,0 +1,40 @@
+
+server:
+  port: 8080 # This is the main "phone number" (port) for our Gateway.
+    # It's common for gateways to use the default web port 8080.
+  # IMPORTANT: Make sure no other service is using 8080!
+
+# Spring application name, used for Eureka registration and logging
+spring:
+  application:
+    name: api-gateway # This is the name our Gateway will use when it registers with Eureka.
+
+  # Eureka client configuration (how our Gateway talks to the phone book)
+  eureka:
+    client:
+      # This is the address of our Eureka Server (the phone book).
+      # Our Gateway needs to know where to find the phone book to ask for service addresses.
+      service-url:
+        defaultZone: http://localhost:8761/eureka/
+      # We want our Gateway to send its IP address, not just its hostname, to Eureka.
+      instance:
+        prefer-ip-address: true
+
+  # Spring Cloud Gateway specific configuration - this is where we define the routing rules!
+  cloud:
+    gateway:
+      routes:
+        # Rule 1: For requests going to the Patient Service
+        - id: patient-service-route # A unique name for this rule
+          uri: lb://PATIENT-SERVICE # IMPORTANT: 'lb://' means "use Eureka's Load Balancer"
+          # 'PATIENT-SERVICE' is the name registered in Eureka
+          predicates:
+            - Path=/api/patients/** # If the request URL starts with /api/patients/, send it here
+
+        # Rule 2: For requests going to the Doctor Service
+        - id: doctor-service-route # A unique name for this rule
+          uri: lb://DOCTOR-SERVICE # 'lb://' means "use Eureka's Load Balancer"
+          # 'DOCTOR-SERVICE' is the name registered in Eureka
+          predicates:
+            - Path=/api/doctors/** # If the request URL starts with /api/doctors/, send it here
+
